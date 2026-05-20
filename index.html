@@ -612,23 +612,12 @@
     display: flex;
     flex-direction: column;
     gap: 14px;
-  }
-  .bay-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--divider);
-  }
-  .bay-head .bay-title {
-    font-family: "Oswald", "Inter", sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text);
+    position: relative;
   }
   .bay-remove {
+    position: absolute;
+    top: 10px;
+    right: 10px;
     background: transparent;
     border: none;
     color: var(--dim);
@@ -636,6 +625,7 @@
     cursor: pointer;
     font-family: inherit;
     padding: 4px 8px;
+    line-height: 1;
   }
   .bay-remove:hover { color: var(--c-danger); }
   .bay:only-child .bay-remove { display: none; }
@@ -1093,13 +1083,9 @@ function renderForm() {
 }
 
 function bayBlock(idx) {
-  const n = idx + 1;
   return `
     <div class="bay" data-bay="${idx}">
-      <div class="bay-head">
-        <span class="bay-title">Bay ${n}</span>
-        <button type="button" class="bay-remove" aria-label="Remove bay">Remove</button>
-      </div>
+      <button type="button" class="bay-remove" aria-label="Remove bay">Remove</button>
       <div class="form-row">
         <label>Bay number</label>
         <input type="text" name="bay-number-${idx}" placeholder="e.g. 7" />
@@ -1141,7 +1127,6 @@ function mountForm() {
       rm.onclick = () => {
         if (bays.querySelectorAll(".bay").length > 1) {
           el.remove();
-          renumber();
         }
       };
       el.querySelectorAll(".file-field").forEach(field => {
@@ -1157,11 +1142,6 @@ function mountForm() {
           }
         };
       });
-    });
-  };
-  const renumber = () => {
-    bays.querySelectorAll(".bay").forEach((el, i) => {
-      el.querySelector(".bay-title").textContent = `Bay ${i + 1}`;
     });
   };
   addBay();
