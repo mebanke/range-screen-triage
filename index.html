@@ -1100,15 +1100,18 @@ function bayBlock(idx) {
         <span class="bay-title">Bay ${n}</span>
         <button type="button" class="bay-remove" aria-label="Remove bay">Remove</button>
       </div>
-      <div class="form-grid-2">
-        <div class="form-row">
-          <label>Bay number</label>
-          <input type="text" name="bay-number-${idx}" placeholder="e.g. 7" />
+      <div class="form-row">
+        <label>Bay number</label>
+        <input type="text" name="bay-number-${idx}" placeholder="e.g. 7" />
+      </div>
+      <div class="form-row">
+        <label>Serial number photo</label>
+        <div class="file-field">
+          <label class="file-btn" for="serial-${idx}">Choose photo</label>
+          <input type="file" id="serial-${idx}" name="serial-${idx}" hidden accept="image/*" />
+          <span class="file-name">No file selected</span>
         </div>
-        <div class="form-row">
-          <label>Serial number</label>
-          <input type="text" name="serial-${idx}" placeholder="From the white label on the back of the screen" />
-        </div>
+        <div class="hint-text">Clear photo of the white label on the back of the screen.</div>
       </div>
       <div class="form-row">
         <label>Photo or video evidence</label>
@@ -1141,17 +1144,19 @@ function mountForm() {
           renumber();
         }
       };
-      const file = el.querySelector('input[type="file"]');
-      const name = el.querySelector(".file-name");
-      file.onchange = () => {
-        if (file.files && file.files[0]) {
-          name.textContent = file.files[0].name;
-          name.classList.add("has-file");
-        } else {
-          name.textContent = "No file selected";
-          name.classList.remove("has-file");
-        }
-      };
+      el.querySelectorAll(".file-field").forEach(field => {
+        const file = field.querySelector('input[type="file"]');
+        const name = field.querySelector(".file-name");
+        file.onchange = () => {
+          if (file.files && file.files[0]) {
+            name.textContent = file.files[0].name;
+            name.classList.add("has-file");
+          } else {
+            name.textContent = "No file selected";
+            name.classList.remove("has-file");
+          }
+        };
+      });
     });
   };
   const renumber = () => {
