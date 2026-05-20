@@ -832,14 +832,38 @@ const TREE = {
 
   touch_step1: {
     tag: "Step 1",
-    crumb: "Power cycle",
-    question: "Power cycle the screen. Is touch working again?",
-    hint: "Turn the screen off and back on using the power button on the back. Test touch in several areas of the display.",
+    crumb: "Unplug power",
+    question: "Unplug the screen from its power source, wait a few seconds, then plug it back in. Is touch working?",
+    hint: "Disconnect the screen completely (don't just use the power button) to ensure a full reset. Test touch in several areas of the display.",
     options: [
-      { id: "touch_ok", color: "success", title: "Touch works",
+      { id: "touch_ok_1", color: "success", title: "Touch works",
         desc: "Input registering as expected", next: "resolved" },
-      { id: "touch_dead", color: "danger", title: "Still unresponsive",
-        desc: "Touch not registering after power cycle", next: "teamviewer" }
+      { id: "touch_dead_1", color: "neutral", title: "Still unresponsive",
+        desc: "Touch not registering after full power reset", next: "touch_step2" }
+    ]
+  },
+  touch_step2: {
+    tag: "Step 2",
+    crumb: "Reseat Ethernet",
+    question: "Remove and firmly reconnect the Ethernet cable on the back of the screen. Is touch working now?",
+    hint: "Unplug the Ethernet cable completely, then push it back in until it clicks. A loose Ethernet connection can cause touch input to fail.",
+    options: [
+      { id: "touch_ok_2", color: "success", title: "Touch works",
+        desc: "Reseating Ethernet resolved it", next: "resolved" },
+      { id: "touch_dead_2", color: "neutral", title: "Still unresponsive",
+        desc: "Touch not registering after reseating", next: "touch_step3" }
+    ]
+  },
+  touch_step3: {
+    tag: "Step 3",
+    crumb: "Swap screen in bay",
+    question: "Connect a different screen to the same bay. Does the new screen work?",
+    hint: "Move a known-working screen into the affected bay. This isolates whether the issue is the screen itself or the bay. If the new screen works, the original screen is faulty. If the new screen also fails, the bay is the issue.",
+    options: [
+      { id: "swap_ok", color: "danger", title: "New screen works",
+        desc: "Original screen is faulty — needs replacement", next: "replacement" },
+      { id: "swap_bad", color: "primary", title: "New screen also fails",
+        desc: "Issue is with the bay, not the screen", next: "teamviewer" }
     ]
   },
 
